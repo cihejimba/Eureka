@@ -97,6 +97,11 @@ open class SliderCell: Cell<Float>, CellType {
         valueLabel.isHidden = !shouldShowTitle && !awakeFromNibCalled
         titleLabel.isHidden = valueLabel.isHidden
         slider.value = row.value ?? 0.0
+        if row.isDisabled {
+            slider.isEnabled = false
+        } else {
+            slider.isEnabled = true
+        }
     }
 
     func addConstraints() {
@@ -116,6 +121,7 @@ open class SliderCell: Cell<Float>, CellType {
     }
 
     func valueChanged() {
+        guard !row.isDisabled else { return }
         let roundedValue: Float
         let steps = Float(sliderRow.steps)
         if steps > 0 {
